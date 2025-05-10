@@ -2,12 +2,15 @@
 import pandas as pd
 import joblib
 import numpy as np
+import sys
 
 selector = joblib.load("output/feature_selector.pkl")
 model = joblib.load("output/model.pkl")
 
-csv = pd.read_csv("back2test.csv",header = None,na_values=['nan', ' nan', 'NaN'],)
+file = sys.argv[1]
+csv = pd.read_csv(file,header = None,na_values=['nan', ' nan', 'NaN'],)
 csv = csv.iloc[:,5:].replace(r'[^\d.+-]', '', regex=True).apply(pd.to_numeric, errors='coerce') .fillna(0)
+
 
 #Z-Score
 mean = csv.mean()
